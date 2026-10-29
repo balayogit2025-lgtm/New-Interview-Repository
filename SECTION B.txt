@@ -1,0 +1,78 @@
+SECTION B - AI output and client communication
+
+B1.Review AI Generated code:
+
+The issues in the existing code are:
+
+1.Incorrect assertion for the cart total
+
+2.it does not verify the checkout calculation
+
+3.use a precise & unique locator for add to cart
+
+The below mentioned is the rewritten code
+
+import { test, expect } from '@playwright/test';
+
+test('cart total is correct', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com');
+
+
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+
+
+  await page.locator(
+    '[data-test="add-to-cart-sauce-labs-backpack"]'
+  ).click();
+
+  
+  await page.locator('.shopping_cart_link').click();
+  await page.locator('#checkout').click();
+
+  await page.fill('#first-name', 'A');
+  await page.fill('#last-name', 'B');
+  await page.fill('#postal-code', '1');
+  await page.click('#continue');
+
+  await expect(
+    page.locator('.summary_subtotal_label')
+  ).toHaveText('Item total: $29.99');
+
+  await expect(
+    page.locator('.summary_tax_label')
+  ).toHaveText('Tax: $2.40');
+
+  await expect(
+    page.locator('.summary_total_label')
+  ).toHaveText('Total: $32.39');
+});
+
+
+B2.Test an AI Feature:
+
+Customer Support Chatbox - Automatic - it can also be quick but lacks understanding the severity of the issue.
+
+Customer Support Chatbox - Rubric - it can give sudden answers but it cannot give exact solutions.
+
+Customer Support Chatbox - Human review - it takes more time but it can understand the question better and answer it in a understandable way.
+
+
+B3.Defect Report:
+
+Title:Sorting by price from low to high
+
+Environment: Testing environment
+
+Steps:
+1.Login with valid credentials
+2.click on the filter option and select the value as sort by price (low to high)
+3.verify the results of the filter
+
+Note:Screenshot will be added for evidence
+
+
+B4.Message to the client:
+
+This is to inform you that as we have plannned that the release has to be done on friday. we have found an issue in the sorting which does not severely affects the functionality but there is an another main issue in the checkout functionality.The checkout process is mandartory to place an order in the app. This issue occurs only often so we need some time to find the root cause of the issue and will resolve it soon.as we cannot ignore issue as it affects the client. so kindly postpond the release.
